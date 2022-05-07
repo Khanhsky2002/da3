@@ -30,6 +30,7 @@ class SanPham extends \yii\db\ActiveRecord
         return [
             [['TenSanPham', 'GiaBan', 'LoaiSanPham'], 'required','message'=>'Không được để trống'],
             [['GiaBan', 'LoaiSanPham'], 'integer'],
+            [['GiaBan'], 'validateGiaBan'],
             [['TenSanPham'], 'string', 'max' => 255],
         ];
     }
@@ -37,6 +38,16 @@ class SanPham extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function validateGiaBan($attibute)
+    {
+        if(!$this->hasErrors())
+        {
+            if($this->GiaBan<1000)
+            {
+                $this->addError($attibute,'Giá bán phải lớn hơn 1000');
+            }
+        }
+    }
     public function attributeLabels()
     {
         return [
